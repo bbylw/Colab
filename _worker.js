@@ -290,7 +290,7 @@ async function forbiddenPage() {
                     <h3 class="card-title">v2rayN</h3>
                     <div class="platform-tags">
                         <span class="platform-tag">Windows</span>
-                        <span class="platform-tag">开源免费</span>
+                        <span class="platform-tag">开源免��</span>
                     </div>
                     <p class="card-description">Windows 平台下最受欢迎的代理工具，界面简洁，功能强大。</p>
                     <ul class="feature-list">
@@ -372,7 +372,7 @@ async function forbiddenPage() {
 
 // 保持原有的其他函数不变
 async function fetchAndDecryptData() {
-  const apiUrl = 'https://application.xyhk.us.kg/serverlist';
+  const apiUrl = 'https://web.enkelte.ggff.net/api/serverlist';
   const headers = {
     'accept': '/',
     'appversion': '1.3.1',
