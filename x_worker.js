@@ -121,11 +121,14 @@ async function forbiddenPage() {
     <title>订阅转换</title>
     <style>
         :root {
-            --primary: #FC456A;
-            --secondary: #2D3436;
-            --text: #2C3E50;
-            --bg: #F8F9FA;
-            --card-bg: #FFFFFF;
+            --primary: #f90;
+            --primary-dark: #e50;
+            --secondary: #0a0a0a;
+            --text: #ffffff;
+            --bg: #000000;
+            --card-bg: #151515;
+            --card-hover: #1a1a1a;
+            --text-gray: #999;
         }
         
         * {
@@ -138,22 +141,47 @@ async function forbiddenPage() {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg);
             color: var(--text);
-            line-height: 1.6;
+            line-height: 1.4;
+            min-height: 100vh;
         }
         
         .header {
             background: var(--secondary);
-            color: white;
             padding: 2rem 1rem;
             text-align: center;
+            position: relative;
+            border-bottom: 2px solid var(--primary);
         }
         
         .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #FC456A, #FD7272);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        
+        .header h1 span {
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .header h1 span::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+        }
+        
+        .header p {
+            font-size: 1rem;
+            color: var(--text-gray);
+            max-width: 500px;
+            margin: 0 auto;
         }
         
         .container {
@@ -165,132 +193,172 @@ async function forbiddenPage() {
         .software-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            gap: 1.5rem;
         }
         
         .software-card {
             background: var(--card-bg);
-            border-radius: 12px;
+            border-radius: 6px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-            border: 1px solid rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: all 0.25s ease;
+            position: relative;
+            border: 1px solid #222;
         }
         
         .software-card:hover {
             transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(255,153,0,0.15);
         }
         
         .card-image {
-            width: 100%;
-            height: 200px;
-            background-size: cover;
+            height: 80px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding-left: 100px;
+            background-color: rgba(255,153,0,0.03);
+            border-bottom: 1px solid rgba(255,153,0,0.1);
+        }
+        
+        .card-image::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            background-size: contain;
             background-position: center;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
+            background-repeat: no-repeat;
+            background-image: inherit;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        
+        .card-image::after {
+            content: attr(data-name);
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: bold;
         }
         
         .card-content {
-            padding: 1.5rem;
+            padding: 1rem;
         }
         
         .card-title {
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            display: none;
         }
         
         .platform-tags {
+            margin: 0.5rem 0;
             display: flex;
             gap: 0.5rem;
-            margin: 1rem 0;
-            flex-wrap: wrap;
         }
         
         .platform-tag {
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            background: rgba(252,69,106,0.1);
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            background: rgba(255,153,0,0.15);
             color: var(--primary);
+            font-weight: 500;
         }
         
         .card-description {
-            color: #666;
-            margin: 1rem 0;
-            line-height: 1.6;
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
         }
         
         .feature-list {
             list-style: none;
-            margin: 1rem 0;
+            margin-bottom: 1.5rem;
         }
         
         .feature-list li {
-            margin: 0.5rem 0;
-            padding-left: 1.5rem;
+            margin: 0.4rem 0;
+            padding-left: 1.2rem;
             position: relative;
+            color: var(--text-gray);
+            font-size: 0.9rem;
         }
         
-        .feature-list li:before {
-            content: "✦";
+        .feature-list li::before {
+            content: "›";
             color: var(--primary);
             position: absolute;
             left: 0;
+            font-size: 1.2rem;
+            line-height: 1;
+            top: 1px;
         }
         
         .download-btn {
             display: inline-block;
-            padding: 0.8rem 1.5rem;
+            padding: 0.6rem 1.2rem;
             background: var(--primary);
-            color: white;
+            color: var(--bg);
             text-decoration: none;
-            border-radius: 25px;
-            transition: opacity 0.3s ease;
-            margin-top: 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
         }
         
         .download-btn:hover {
-            opacity: 0.9;
+            background: var(--primary-dark);
+            transform: translateY(-1px);
         }
         
         footer {
             text-align: center;
             padding: 2rem;
             background: var(--secondary);
-            color: white;
-            margin-top: 3rem;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            border-top: 2px solid var(--primary);
         }
         
         @media (max-width: 768px) {
-            .software-grid {
-                grid-template-columns: 1fr;
-            }
-            
             .header h1 {
                 font-size: 2rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .software-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .card-content {
+                padding: 1.2rem;
             }
         }
     </style>
 </head>
 <body>
     <header class="header">
-        <h1>订阅转换服务</h1>
-        <p>支持多种客户端配置转换，轻松实现跨平台使用</p>
+        <h1>SUB<span>HUB</span></h1>
+        <p>专业的订阅转换服务</p>
     </header>
     
     <main class="container">
         <div class="software-grid">
             <div class="software-card">
-                <div class="card-image" style="background-image: url('https://raw.githubusercontent.com/2dust/v2rayN/master/v2rayN/Resources/NotifyIcon1.ico')"></div>
+                <div class="card-image" 
+                     style="background-image: url('https://raw.githubusercontent.com/2dust/v2rayN/master/v2rayN/Resources/NotifyIcon1.ico')"
+                     data-name="v2rayN">
+                </div>
                 <div class="card-content">
-                    <h3 class="card-title">v2rayN</h3>
                     <div class="platform-tags">
                         <span class="platform-tag">Windows</span>
-                        <span class="platform-tag">开源免��</span>
+                        <span class="platform-tag">开源免费</span>
                     </div>
                     <p class="card-description">Windows 平台下最受欢迎的代理工具，界面简洁，功能强大。</p>
                     <ul class="feature-list">
@@ -304,9 +372,11 @@ async function forbiddenPage() {
             </div>
             
             <div class="software-card">
-                <div class="card-image" style="background-image: url('https://raw.githubusercontent.com/hiddify/hiddify-next/main/assets/images/logo.png')"></div>
+                <div class="card-image" 
+                     style="background-image: url('https://raw.githubusercontent.com/hiddify/hiddify-next/main/assets/images/logo.png')"
+                     data-name="Hiddify">
+                </div>
                 <div class="card-content">
-                    <h3 class="card-title">Hiddify</h3>
                     <div class="platform-tags">
                         <span class="platform-tag">跨平台</span>
                         <span class="platform-tag">开源免费</span>
@@ -323,9 +393,11 @@ async function forbiddenPage() {
             </div>
             
             <div class="software-card">
-                <div class="card-image" style="background-image: url('https://play-lh.googleusercontent.com/EoiTA0z1LdQHV1RjOBGgH0liGDJGGqk8UKs7_AoNvX5C6nrXRG-NVjMvvD_Ef_yMJQ')"></div>
+                <div class="card-image" 
+                     style="background-image: url('https://play-lh.googleusercontent.com/EoiTA0z1LdQHV1RjOBGgH0liGDJGGqk8UKs7_AoNvX5C6nrXRG-NVjMvvD_Ef_yMJQ')"
+                     data-name="Karing">
+                </div>
                 <div class="card-content">
-                    <h3 class="card-title">Karing</h3>
                     <div class="platform-tags">
                         <span class="platform-tag">Android</span>
                         <span class="platform-tag">简单易用</span>
@@ -340,30 +412,11 @@ async function forbiddenPage() {
                     <a href="https://github.com/KaringX/karing" class="download-btn" target="_blank">了解更多</a>
                 </div>
             </div>
-            
-            <div class="software-card">
-                <div class="card-image" style="background-image: url('https://raw.githubusercontent.com/Fclash/Fclash/main/img/logo.png')"></div>
-                <div class="card-content">
-                    <h3 class="card-title">FClash</h3>
-                    <div class="platform-tags">
-                        <span class="platform-tag">跨平台</span>
-                        <span class="platform-tag">图形界面</span>
-                    </div>
-                    <p class="card-description">基于 Clash 内核的跨平台图形客户端。</p>
-                    <ul class="feature-list">
-                        <li>支持多平台</li>
-                        <li>规则分流</li>
-                        <li>策略组切换</li>
-                        <li>流量统计</li>
-                    </ul>
-                    <a href="https://github.com/chen08209/FlClash" class="download-btn" target="_blank">了解更多</a>
-                </div>
-            </div>
         </div>
     </main>
     
     <footer>
-        <p>© ${new Date().getFullYear()} Sub Hub - 专业的订阅转换服务</p>
+        <p>© ${new Date().getFullYear()} SubHub - 专业的订阅转换服务</p>
     </footer>
 </body>
 </html>
